@@ -1,0 +1,120 @@
+{% extends 'main_wrapper.html' %}
+
+{% block title %}Запис{% endblock %}
+
+{% block head %} 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js" integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    {% if entity_edit is True %}
+    <h2 class="mb-4">Редагування</h2>
+    {% else %}
+    <h2 class="mb-4">Запис</h2>
+    {% endif %}
+  
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Найменування юридичної особи</label>
+        <div class="col-sm-8">
+          <input type="text" name="legal_name" class="form-control" id="organizationName" placeholder="Введіть повне найменування" value="{{form.legal_name}}">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Код ЄДРПОУ</label>
+        <div class="col-sm-8">
+          <input type="text" name="legal_code" class="form-control" placeholder="Введіть код" value="{{form.legal_code}}">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Дата реєстрації</label>
+        <div class="col-sm-8">
+          <input type="text" name="reg_date" class="form-control" id="datepicker" placeholder="Виберіть дату" value="">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Уповноважена особа</label>
+        <div class="col-sm-8">
+          <input type="text" name="legal_agent" class="form-control" placeholder="Введіть ім'я" value="{{form.legal_agent}}">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Розмір статутного капіталу</label>
+        <div class="col-sm-8">
+          <input type="text" name="legal_fund" class="form-control" placeholder="Розмір капіталу у грн." value="{{form.legal_fund}}">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Організаційна форма</label>
+        <div class="col-sm-8">
+          <select class="form-control" name="legal_form" id="dropdownSelect">
+              {% if form.legal_form is not none %}
+              <option value="{{form.legal_form}}" selected>{{form.legal_form}}</option>
+              {% else %}
+              <option value="" disabled selected>Виберіть форму</option>
+              {% endif%}
+              <option value="ТОВ">Товариство з обмеженою відповідальністю</option>
+              <option value="АК">Акціонерне товариство</option>
+              <option value="ПП">Приватне підприємство</option>
+              <option value="КТ">Командитне товариство</option>
+              <option value="ТДВ">Товариство з додатковою відповідальністю</option>
+              <option value="КП">Комунальне підприємство</option>
+              <option value="ВК">Виробничий кооператив</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Вид діяльності</label>
+        <div class="col-sm-8">
+          <input type="text" name="legal_activity" class="form-control" placeholder="Введіть вид діяльності" value="{{form.legal_activity}}">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Місцезнаходження</label>
+        <div class="col-sm-8">
+          <input type="text" name="legal_address" class="form-control" placeholder="Введіть місцезнаходження" value="{{form.legal_address}}">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Телефон</label>
+        <div class="col-sm-8">
+          <input type="text" name="legal_phone" class="form-control" placeholder="Введіть номер" value="{{form.legal_phone}}">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-sm-8 offset-sm-4">
+          {% if entity_edit is False or entity_edit is none %}
+            <input type="submit" class="btn btn-dark" name="save_btn" value="Зберегти">
+            <input type="submit" class="btn btn-secondary" name="save_continue_btn" value="Зберегти та додати ще">
+          {% else %}
+            <input type="submit" class="btn btn-dark" name="save_edit_btn" value="Зберегти">
+          {% endif %}
+        </div>
+      </div>
+    </form>
+</div>
+
+<script>
+  $(document).ready(function () {
+      var datePickerElement = $('#datepicker').datepicker({
+          format: 'yyyy-mm-dd',
+          todayHighlight: true,
+          autoclose: true
+      });
+
+      datePickerElement.datepicker('setDate', '{{form.reg_date|date:"Y-m-d"}}');
+  });
+
+  $('.dropdown-item').on('click', function() {
+    var selectedValue = $(this).data('value');
+    $('#dropdownInput').val(selectedValue);
+    console.log(1);
+});
+</script>
+
+{% endblock %}

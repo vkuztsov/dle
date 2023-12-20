@@ -1,0 +1,77 @@
+{% extends "main_wrapper.html" %}
+
+{% block title %}entity.legal_name{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h4><i class="fa-regular fa-clipboard"></i> Анкета</h4>
+  
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <th scope="row">Найменування</th>
+          <td>{{entity.legal_name}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Код ЄДРПОУ</th>
+          <td>{{entity.legal_code}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Дата реєстрації</th>
+          <td>{{entity.reg_date|date:"Y-m-d"}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Уповноважена особа</th>
+          <td>{{entity.legal_agent}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Розмір статутного капіталу</th>
+          <td>{{entity.legal_fund}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Організаційно-правова форма</th>
+          <td>{{entity.legal_form}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Вид діяльності</th>
+          <td>{{entity.legal_activity}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Місцезнаходження юридичної особи</th>
+          <td>{{entity.legal_address}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Телефон</th>
+          <td>{{entity.legal_phone}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="fixed-bottom text-center mb-3">
+        <a href="/entity/edit/{{entity.id}}"><button type="button" class="btn btn-primary mr-2">Редагувати</button></a>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmationModal">Видалити</button>
+      </div>
+  </div>
+
+  <div class="modal" id="confirmationModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Підтвердження видалення</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Ви впевнені, що хочете видалити анкету?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Ні</button>
+          <a href="/entity/delete/{{entity.id}}"><button type="button" class="btn btn-danger">Так</button></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
+{% endblock %}

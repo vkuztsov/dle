@@ -1,0 +1,34 @@
+{% extends "main_wrapper.html" %}
+
+{% block title %}Каталог{% endblock %}
+
+{% block content %}
+
+
+<div class="container mt-4">
+    <h5>КАТАЛОГ ЮРИДИЧНИХ ОСІБ, М.ДНІПРО</h5>
+    <div class="container mt-4 bg-light rounded">
+{% if entities is not none %}
+    {% for entity in entities %}
+        <div class="row clickable-row align-items-center border-bottom pb-3 list-row" onclick="navigate_to_link('/entity/{{entity.id}}')">
+            <div class="col-md-6">
+            <h5>{{entity.legal_name | upper}}</h5>
+            <p class="text-muted small">{{entity.legal_address | upper}}</p>
+            </div>
+            <div class="col-md-6 text-right">
+            <i class="fa-solid fa-arrow-right text-dark" style="font-size:16px;"></i>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="container mt-5">
+        <ul class="pagination justify-content-center">
+            {% for page_number in page_range %}
+            <li class="page-item {% if page_number == page_id %}active{% endif %}"><a class="page-link" href="/entities/{% if search_query is not none %}search/{{search_query}}/{% endif %}{{page_number}}">{{page_number}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+    </div>
+</div>
+    
+{% endblock %}
